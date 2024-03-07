@@ -2,16 +2,15 @@
 ## author Thanneeru Mohan Reddy
 ###############
 apiVersion: apps/v1
-kind: Deployement
+kind: Deployment
 metadata:
-  name: mongodb
+  name: mongo-deployment
   labels:
     app: mongodb
-
 spec:
-  replicas: 1
+  replicas: 2
   selector:
-    matchlabels:
+    matchLabels:
       app: mongodb
   template:
     metadata:
@@ -22,7 +21,7 @@ spec:
       - name: mongodb
         image: mongo
         ports:
-        - containerPort: 27017
+        - containerPort: 80
         env:
         - name: MONGO_INITDB_ROOT_USERNAME
           valueFrom:
@@ -33,8 +32,8 @@ spec:
           valueFrom:
             secretKeyRef:
               name: mongodb-secret
-              key: mongo-password 
-
+              key: mongo-password
+              
 ---
 apiVersion: v1
 kind: Service
